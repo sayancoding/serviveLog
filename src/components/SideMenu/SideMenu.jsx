@@ -16,8 +16,9 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export default function SideMenu(props) {
-    // let isMobile = (window.innerWidth < 1120)
-    let width = (props.status) ? "0px":"320px";
+  // let isMobile = (window.innerWidth < 1120)
+  let width = (props.status) ? "0px":"320px";
+  // width = (window.innerWidth < 1120)?"0px":"320px";
     const classes = useStyle({width});
     function setStatus() {
         props.setStatus(!props.status)
