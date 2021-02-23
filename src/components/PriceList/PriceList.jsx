@@ -1,7 +1,9 @@
-import React from 'react'
-import {makeStyles,TextField,Fab} from '@material-ui/core'
+import React,{useState} from 'react'
+import {makeStyles,TextField,Fab,Dialog,DialogTitle,DialogContent} from '@material-ui/core'
 import 'boxicons';
 import CreateForm from './CreateForm/CreateForm'
+import {Products} from '../../dummyData'
+import TableData from './TableData/TableData';
 
 const useStyle = makeStyles({
   container: {
@@ -26,6 +28,15 @@ const useStyle = makeStyles({
 
 function PriceList() {
     const classes = useStyle();
+    const [open,setOpen] = useState(false);
+    function dialogOpenHandler(){
+      console.log(Products)
+      setOpen(true)
+    }
+    function dialogCloseHandler(){
+      setOpen(false)
+    }
+
     return (
       <div className={classes.container}>
         <p className={classes.headText}>Price CheatSheet</p>
@@ -35,8 +46,22 @@ function PriceList() {
           label="Search item"
           variant="outlined"
         />
-        <CreateForm/>
-        <Fab color="primary" className={classes.floatBtn}>
+        <div style={{marginTop:"12px"}}>
+          <TableData/>
+        </div>
+
+        <Dialog open={open} keepMounted onClose={dialogCloseHandler}>
+          <DialogTitle>Create Product</DialogTitle>
+          <hr/>
+          <DialogContent>
+            <CreateForm />
+          </DialogContent>
+        </Dialog>
+        <Fab
+          color="primary"
+          className={classes.floatBtn}
+          onClick={dialogOpenHandler}
+        >
           <box-icon name="message-square-add" color="white"></box-icon>
         </Fab>
       </div>

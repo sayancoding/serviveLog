@@ -1,6 +1,5 @@
 import React,{useState} from "react";
 import {
-  Paper,
   Grid,
   TextField,
   Select,
@@ -47,7 +46,7 @@ export default function CreateForm() {
 
     return (
       <div style={{ marginTop: "12px" }}>
-        <Paper className={classes.container}>
+        <div className={classes.container}>
           <Grid container>
             <Grid item xs={12} sm={4}>
               <TextField
@@ -133,7 +132,7 @@ export default function CreateForm() {
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+        </div>
       </div>
     );
 }
