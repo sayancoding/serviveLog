@@ -44,7 +44,7 @@ function PriceList() {
           if(event.target.value === ""){
             return [...Products]
           }else{
-            return el.productName.toLowerCase().includes(event.target.value)
+            return el.productName.toLowerCase().includes(event.target.value.toLowerCase())
           }
         })
       );
