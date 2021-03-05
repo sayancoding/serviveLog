@@ -26,15 +26,28 @@ const useStyle = makeStyles({
   },
 });
 
+
 function PriceList() {
     const classes = useStyle();
     const [open,setOpen] = useState(false);
+    const [Items, setItems] = useState(Products);
     function dialogOpenHandler(){
       console.log(Products)
       setOpen(true)
     }
     function dialogCloseHandler(){
       setOpen(false)
+    }
+    const searchFilter = event =>{
+      setItems(
+        Products.filter((el) => {
+          if(event.target.value === ""){
+            return [...Products]
+          }else{
+            return el.productName.toLowerCase().includes(event.target.value)
+          }
+        })
+      );
     }
 
     return (
@@ -45,14 +58,15 @@ function PriceList() {
           type="search"
           label="Search item"
           variant="outlined"
+          onChange={searchFilter}
         />
-        <div style={{marginTop:"12px"}}>
-          <TableData/>
+        <div style={{ marginTop: "12px" }}>
+          <TableData tableData={Items}/>
         </div>
 
         <Dialog open={open} keepMounted onClose={dialogCloseHandler}>
           <DialogTitle>Create Product</DialogTitle>
-          <hr/>
+          <hr />
           <DialogContent>
             <CreateForm />
           </DialogContent>

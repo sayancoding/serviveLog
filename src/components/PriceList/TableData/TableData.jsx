@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {Table,TableBody,TableCell,TableRow,TableHead,makeStyles,TablePagination} from '@material-ui/core'
 import {Products,TableHeadData} from '../../../dummyData'
 
@@ -19,31 +19,35 @@ const useStyle = makeStyles(theme=>({
     }
 }))
 
-export default function TableData() {
+export default function TableData(props) {
     const classes = useStyle();
     const pages = [5,10,20];
     const [page,setPage] = useState(0)
     const [rowsPerPage,setRowsPerPage] = useState(pages[page]);
+    const [Items,setItems] = useState([...Products]);
+    useEffect(() => {
+      setItems(props.tableData);
+    }, [props.tableData]);
     const handleChangePage = (event, newPage) =>{
         setPage(newPage)
     }
     const handleChangeRowsPerPage = (event) =>{
         setRowsPerPage(parseInt(event.target.value,10))
-        // setPage(0)
+        setPage(0)
     }
     const afterPagenationAndSorting = () =>{
-        return Products.slice(page*rowsPerPage,(page+1)*rowsPerPage)
+        return Items.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
     } 
     return (
       <>
         <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              {TableHeadData.map((head) => (
-                <TableCell>{head.lable}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+            <TableHead>
+              <TableRow>
+                {TableHeadData.map((head) => (
+                    <TableCell key={head.id}>{head.lable}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
           <TableBody>
             {afterPagenationAndSorting().map((item) => (
               <TableRow key={item.id}>
@@ -57,7 +61,7 @@ export default function TableData() {
             page={page}
             rowsPerPageOptions={pages}
             rowsPerPage={rowsPerPage}
-            count={Products.length}
+            count={Items.length}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
