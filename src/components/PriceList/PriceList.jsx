@@ -1,9 +1,16 @@
-import React,{useState} from 'react'
-import {makeStyles,TextField,Fab,Dialog,DialogTitle,DialogContent} from '@material-ui/core'
-import 'boxicons';
-import CreateForm from './CreateForm/CreateForm'
-import {Products} from '../../dummyData'
-import TableData from './TableData/TableData';
+import React, { useState } from "react";
+import {
+  makeStyles,
+  TextField,
+  Fab,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@material-ui/core";
+import "boxicons";
+import CreateForm from "./CreateForm/CreateForm";
+import { Products } from "../../dummyData";
+import TableData from "./TableData/TableData";
 
 const useStyle = makeStyles({
   container: {
@@ -26,59 +33,60 @@ const useStyle = makeStyles({
   },
 });
 
-
 function PriceList() {
-    const classes = useStyle();
-    const [open,setOpen] = useState(false);
-    const [Items, setItems] = useState(Products);
-    function dialogOpenHandler(){
-      console.log(Products)
-      setOpen(true)
-    }
-    function dialogCloseHandler(){
-      setOpen(false)
-    }
-    const searchFilter = event =>{
-      setItems(
-        Products.filter((el) => {
-          if(event.target.value === ""){
-            return [...Products]
-          }else{
-            return el.productName.toLowerCase().includes(event.target.value.toLowerCase())
-          }
-        })
-      );
-    }
-
-    return (
-      <div className={classes.container}>
-        <p className={classes.headText}>Price CheatSheet</p>
-        <TextField
-          className={classes.textField}
-          type="search"
-          label="Search item"
-          variant="outlined"
-          onChange={searchFilter}
-        />
-        <div style={{ marginTop: "12px" }}>
-          <TableData tableData={Items}/>
-        </div>
-
-        <Dialog open={open} keepMounted onClose={dialogCloseHandler}>
-          <DialogTitle>Create Product</DialogTitle>
-          <hr />
-          <DialogContent>
-            <CreateForm />
-          </DialogContent>
-        </Dialog>
-        <Fab
-          color="primary"
-          className={classes.floatBtn}
-          onClick={dialogOpenHandler}
-        >
-          <box-icon name="message-square-add" color="white"></box-icon>
-        </Fab>
-      </div>
+  const classes = useStyle();
+  const [open, setOpen] = useState(false);
+  const [Items, setItems] = useState(Products);
+  function dialogOpenHandler() {
+    console.log(Products);
+    setOpen(true);
+  }
+  function dialogCloseHandler() {
+    setOpen(false);
+  }
+  const searchFilter = (event) => {
+    setItems(
+      Products.filter((el) => {
+        if (event.target.value === "") {
+          return [...Products];
+        } else {
+          return el.productName
+            .toLowerCase()
+            .includes(event.target.value.toLowerCase());
+        }
+      })
     );
+  };
+
+  return (
+    <div className={classes.container}>
+      <p className={classes.headText}>Price CheatSheet</p>
+      <TextField
+        className={classes.textField}
+        type="search"
+        label="Search item"
+        variant="outlined"
+        onChange={searchFilter}
+      />
+      <div style={{ marginTop: "12px" }}>
+        <TableData tableData={Items} />
+      </div>
+
+      <Dialog open={open} keepMounted onClose={dialogCloseHandler}>
+        <DialogTitle>Create Product</DialogTitle>
+        <hr />
+        <DialogContent>
+          <CreateForm />
+        </DialogContent>
+      </Dialog>
+      <Fab
+        color="primary"
+        className={classes.floatBtn}
+        onClick={dialogOpenHandler}
+      >
+        <box-icon name="message-square-add" color="white"></box-icon>
+      </Fab>
+    </div>
+  );
 }
 export default PriceList;
