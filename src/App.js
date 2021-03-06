@@ -3,7 +3,7 @@ import './App.css';
 import Header from "./components/Header/Header";
 import {CssBaseline, makeStyles} from '@material-ui/core'
 import SideMenu from './components/SideMenu/SideMenu';
-import PriceList from './components/PriceList/PriceList'
+import PriceContextWrapper from './components/PriceList/PriceContextWrapper'
 
 const useStyle = makeStyles(theme=>({
   mainContainer:{
@@ -21,7 +21,7 @@ function App() {
       <SideMenu status={hidden} setStatus={setHidden}/>
       <div className={classes.mainContainer}>
         <Header status={hidden} setStatus={setHidden} />
-        <PriceList/>
+        <PriceContextWrapper/>
       </div>
       <CssBaseline/>
     </>

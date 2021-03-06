@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import {
   Grid,
   TextField,
@@ -8,6 +8,7 @@ import {
   InputLabel,
   Button
 } from "@material-ui/core";
+import {PriceContext} from '../PriceContext'
 
 const useStyle = makeStyles({
   container: {
@@ -29,9 +30,10 @@ let formData = {
 };
 
 
-export default function CreateForm() {
+export default function CreateForm(props) {
     const classes = useStyle();
     const [data,setData] = useState(formData);
+    const [prices,setPrices] = useContext(PriceContext) 
 
     const eventHandler = e =>{
         setData({
@@ -40,8 +42,9 @@ export default function CreateForm() {
         })
     }
     const submitForm = () =>{
-        console.log(data)
-        alert(data)
+        console.log(prices)
+        setPrices([...prices,{id:prices.length,...data}])
+        props.dialogCloseHandler();
     }
 
     return (
@@ -80,7 +83,7 @@ export default function CreateForm() {
                 className={classes.inputField}
                 variant="outlined"
                 label="Description"
-                name="description"
+                name="descriptions"
                 onChange={eventHandler}
               />
             </Grid>

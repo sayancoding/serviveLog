@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext,useEffect } from "react";
 import {
   makeStyles,
   TextField,
@@ -11,6 +11,7 @@ import "boxicons";
 import CreateForm from "./CreateForm/CreateForm";
 import { Products } from "../../dummyData";
 import TableData from "./TableData/TableData";
+import {PriceContext} from './PriceContext'
 
 const useStyle = makeStyles({
   container: {
@@ -36,7 +37,12 @@ const useStyle = makeStyles({
 function PriceList() {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
-  const [Items, setItems] = useState(Products);
+  const [prices] = useContext(PriceContext);
+  const [Items, setItems] = useState(prices);
+  useEffect(() => {
+    setItems(prices)
+  }, [prices])
+
   function dialogOpenHandler() {
     console.log(Products);
     setOpen(true);
@@ -46,9 +52,9 @@ function PriceList() {
   }
   const searchFilter = (event) => {
     setItems(
-      Products.filter((el) => {
+      prices.filter((el) => {
         if (event.target.value === "") {
-          return [...Products];
+          return [...prices];
         } else {
           return el.productName
             .toLowerCase()
@@ -57,7 +63,6 @@ function PriceList() {
       })
     );
   };
-
   return (
     <div className={classes.container}>
       <p className={classes.headText}>Price CheatSheet</p>
@@ -76,7 +81,7 @@ function PriceList() {
         <DialogTitle>Create Product</DialogTitle>
         <hr />
         <DialogContent>
-          <CreateForm />
+          <CreateForm dialogCloseHandler={dialogCloseHandler} />
         </DialogContent>
       </Dialog>
       <Fab
