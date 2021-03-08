@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import "boxicons";
 import CreateForm from "./CreateForm/CreateForm";
-import { Products } from "../../dummyData";
 import TableData from "./TableData/TableData";
 import {PriceContext} from './PriceContext'
 
@@ -34,6 +33,15 @@ const useStyle = makeStyles({
   },
 });
 
+let formData = {
+  productName: "",
+  costPrice: "",
+  sellingPrice: "",
+  descriptions: "NaN",
+  category: "NaN",
+  quantity: "0",
+};
+
 function PriceList() {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
@@ -44,7 +52,6 @@ function PriceList() {
   }, [prices])
 
   function dialogOpenHandler() {
-    console.log(Products);
     setOpen(true);
   }
   function dialogCloseHandler() {
@@ -81,7 +88,7 @@ function PriceList() {
         <DialogTitle>Create Product</DialogTitle>
         <hr />
         <DialogContent>
-          <CreateForm dialogCloseHandler={dialogCloseHandler} />
+          <CreateForm dialogCloseHandler={dialogCloseHandler} formData={formData}/>
         </DialogContent>
       </Dialog>
       <Fab

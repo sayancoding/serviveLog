@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext} from "react";
+import 'boxicons';
 import {
   Table,
   TableBody,
@@ -10,10 +11,13 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
+  IconButton
 } from "@material-ui/core";
 import { TableHeadData } from "../../../dummyData";
 import ProductView from "./ProductView/ProductView";
-import {PriceContext} from '../PriceContext'
+import {PriceContext} from '../PriceContext';
+import CreateForm from "../CreateForm/CreateForm";
 
 const useStyle = makeStyles((theme) => ({
   table: {
@@ -41,6 +45,7 @@ export default function TableData(props) {
   const [Items, setItems] = useState([...prices]);
   const [productDialog, setProductDialog] = useState(false);
   const [currProduct, setCurrProduct] = useState({});
+  const [open,setOpen] = useState(false)
   
   useEffect(() => {
     setItems(props.tableData);
@@ -60,6 +65,17 @@ export default function TableData(props) {
     setProductDialog(true);
     setCurrProduct(productDetail);
   };
+  const deleteProduct = (product)=>{
+    setItems(Items.filter((el)=>el.id !== product.id))
+    setProductDialog(false)
+  }
+  const updateProduct = () =>{
+    setProductDialog(false)
+    setOpen(true)
+  }
+  function dialogCloseHandler(){
+    setOpen(false)
+  }
   return (
     <>
       <Table className={classes.table}>
@@ -98,6 +114,24 @@ export default function TableData(props) {
         </DialogTitle>
         <DialogContent>
           <ProductView productDetail={currProduct} />
+        </DialogContent>
+        <DialogActions>
+          <IconButton onClick={() => deleteProduct(currProduct)}>
+            <box-icon name="trash-alt" color="#bd2000"></box-icon>
+          </IconButton>
+          <IconButton onClick={() => updateProduct(currProduct)}>
+            <box-icon name="edit" color="green"></box-icon>
+          </IconButton>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={open} keepMounted onClose={dialogCloseHandler}>
+        <DialogTitle>Edit Product</DialogTitle>
+        <hr />
+        <DialogContent>
+          <CreateForm
+            dialogCloseHandler={dialogCloseHandler}
+            formData={currProduct}
+          />
         </DialogContent>
       </Dialog>
     </>
