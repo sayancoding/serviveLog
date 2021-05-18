@@ -41,8 +41,8 @@ export default function TableData(props) {
   const pages = [5, 10, 20];
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
-  const [prices] = useContext(PriceContext)
-  const [Items, setItems] = useState([...prices]);
+  const [prices, setPrices] = useContext(PriceContext);
+  const [Items, setItems] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
   const [currProduct, setCurrProduct] = useState({});
   const [open,setOpen] = useState(false)
@@ -50,6 +50,7 @@ export default function TableData(props) {
   useEffect(() => {
     setItems(props.tableData);
   }, [props.tableData]);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -86,15 +87,15 @@ export default function TableData(props) {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {afterPagenationAndSorting().map((item) => (
-            <TableRow key={item.id} onClick={() => viewProduct(item)}>
-              <TableCell>{item.productName}</TableCell>
-              <TableCell>{item.costPrice}</TableCell>
-              <TableCell>{item.sellingPrice}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {prices.length && (<TableBody>
+            {afterPagenationAndSorting().map((item) => (
+              <TableRow key={item.id} onClick={() => viewProduct(item)}>
+                <TableCell>{item.productName}</TableCell>
+                <TableCell>{item.costPrice}</TableCell>
+                <TableCell>{item.sellingPrice}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>)}
         <TablePagination
           page={page}
           rowsPerPageOptions={pages}

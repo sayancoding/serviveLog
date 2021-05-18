@@ -1,30 +1,26 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import './App.css';
-import Header from "./components/Header/Header";
-import {CssBaseline, makeStyles} from '@material-ui/core'
-import SideMenu from './components/SideMenu/SideMenu';
-import PriceContextWrapper from './components/PriceList/PriceContextWrapper'
-
-const useStyle = makeStyles(theme=>({
-  mainContainer:{
-    paddingLeft: (props) => props.left
-  }
-}))
+import {BrowserRouter as Router,Route,Redirect} from 'react-router-dom'
+import Home from './components/Home/Home'
+import SignIn from './components/SignIn/SignIn'
 
 function App() {
-  const [hidden,setHidden] =  useState(false)
-  // let isMobile = (window.innerWidth < 1120)
-  let left = (hidden)?"0px":"320px"
-  const classes = useStyle({left});
+  const [isAuth,setIsAuth] = useState(false);
+  useEffect(() => {
+    if(localStorage.getItem("serviceUid")){
+      setIsAuth(true);
+    }
+  },[])
+  
   return (
-    <>
-      <SideMenu status={hidden} setStatus={setHidden}/>
-      <div className={classes.mainContainer}>
-        <Header status={hidden} setStatus={setHidden} />
-        <PriceContextWrapper/>
-      </div>
-      <CssBaseline/>
-    </>
+    <Router>
+      <>
+          {isAuth?<Redirect to='/home'/>:<Redirect to='/'/>}
+          <Route path="/" exact component={SignIn}/>
+          <Route path="/home" exact component={Home}/>
+      </>
+    </Router>
+    
   );
 }
 

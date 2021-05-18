@@ -48,8 +48,9 @@ function PriceList() {
   const [prices] = useContext(PriceContext);
   const [Items, setItems] = useState(prices);
   useEffect(() => {
-    setItems(prices)
-  }, [prices])
+    setItems(prices);
+    console.log(prices);
+  }, [PriceContext]);
 
   function dialogOpenHandler() {
     setOpen(true);

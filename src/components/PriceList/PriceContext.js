@@ -1,9 +1,18 @@
 import React,{useState,createContext} from "react";
+import {firestore} from '../../firebase.config'
 
 export const PriceContext = createContext();
 
 export const PriceProvider = (props) =>{
-    const [prices, setPrices] = useState([
+    const fetchItems = async () =>{
+        const itemCollection =  firestore.collection('users').doc(localStorage.getItem('serviceUid')).collection('items');
+        const docs = await itemCollection.get();
+        docs.forEach(snapshot=>{
+            console.log(snapshot.data().products)
+            return snapshot.data().products;
+        })
+    }
+    let dummyData = [
         {
             id: 0,
             productName: "Usha 103",
@@ -58,7 +67,8 @@ export const PriceProvider = (props) =>{
             category: "none",
             quantity: "10"
         },
-    ])
+    ]
+    const [prices, setPrices] = useState(fetchItems())
     return(
         <PriceContext.Provider value={[prices,setPrices]}>
             {props.children}
